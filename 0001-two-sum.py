@@ -1,14 +1,23 @@
 class Solution:
+
     def twoSum(self, nums, target):
         """
         :type nums: List[int]
         :type target: int
         :rtype: List[int]
         """
+        # for i, m in enumerate(nums):
+        #     for j, n in enumerate(nums):
+        #         if i != j and m + n == target:
+        #             return [i, j]
+
+        d = {}
         for i, m in enumerate(nums):
             for j, n in enumerate(nums):
-                if i != j and m + n == target:
-                    return [i, j]
+                if i != j and m + n not in d:
+                    d[m + n] = [i, j]
+        return d[target]
+
 
 if __name__ == '__main__':
     solution = Solution()

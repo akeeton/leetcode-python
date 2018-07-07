@@ -10,7 +10,7 @@ class Solution:
         max_len = 0
         max_len_substring = ""
         for left_index, start_char in enumerate(chars):
-            for right_index in reversed(range(left_index + 1, len(chars))):
+            for right_index in reversed(range(left_index, len(chars))):
                 substring = chars[left_index:right_index + 1]
                 char_counts = {}
 

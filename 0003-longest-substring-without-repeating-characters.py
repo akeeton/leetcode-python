@@ -8,39 +8,31 @@ class Solution:
         :rtype: int
         """
 
-        # for char in chars:
-        #     char_counts[char] = 1 if char not in char_counts else char_counts[char] + 1
-
-        chars = s
-        char_counts_base = Counter(chars)
+        char_counts = Counter(s)
+        chars_minus_left = s[:]
         max_len = 0
-        # max_len_substring = ""
 
-        for left_index, start_char in enumerate(chars):
-            if left_index > 0:
-                char_counts_base[chars[left_index - 1]] -= 1
+        while len(chars_minus_left):
+            char_counts_subtracted_from_right = Counter()
 
-            char_counts = char_counts_base.copy()
+            chars_minus_left_and_right = chars_minus_left[:]
 
-            for right_index in reversed(range(left_index, len(chars))):
-                substring = chars[left_index:right_index + 1]
-
-                if len(substring) < max_len:
-                    break
-
+            while len(chars_minus_left_and_right) > max_len:
                 char_count_dup_gen = (char_count[1] > 1 for char_count in char_counts.items())
 
-                if not any(char_count_dup_gen) and len(substring) > max_len:
-                    max_len = len(substring)
-                    # max_len_substring = substring
+                if not any(char_count_dup_gen):
+                    max_len = len(chars_minus_left_and_right)
+                else:
+                    right_char = chars_minus_left_and_right[-1]
+                    char_counts[right_char] -= 1
+                    char_counts_subtracted_from_right[right_char] += 1
+                    chars_minus_left_and_right = chars_minus_left_and_right[:-1]
 
-                char_counts[substring[-1]] -= 1
+            char_counts += char_counts_subtracted_from_right
 
-                # print(substring)
-                # print(char_counts)
-                # print(list(char_count_dup_gen))
+            char_counts[chars_minus_left[0]] -= 1
+            chars_minus_left = chars_minus_left[1:]
 
-        # print("Max substring: '{}'".format(max_len_substring))
         return max_len
 
 

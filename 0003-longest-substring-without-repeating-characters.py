@@ -5,7 +5,6 @@ class Solution:
         :rtype: int
         """
 
-        # chars = list(s)
         chars = s
         max_len = 0
         max_len_substring = ""
@@ -27,7 +26,7 @@ class Solution:
                 # print(char_counts)
                 # print(list(char_count_dup_gen))
 
-        print("Max substring: '{}'".format(max_len_substring))
+        # print("Max substring: '{}'".format(max_len_substring))
         return max_len
 
 

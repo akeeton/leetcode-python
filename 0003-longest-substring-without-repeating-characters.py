@@ -11,6 +11,10 @@ class Solution:
         for left_index, start_char in enumerate(chars):
             for right_index in reversed(range(left_index, len(chars))):
                 substring = chars[left_index:right_index + 1]
+
+                if len(substring) < max_len:
+                    break
+
                 char_counts = {}
 
                 for char in substring:

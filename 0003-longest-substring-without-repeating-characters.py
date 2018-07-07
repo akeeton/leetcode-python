@@ -38,9 +38,14 @@ class Solution:
 
 def main():
     s = Solution()
-    print(s.lengthOfLongestSubstring("abcabcbb"))
-    print(s.lengthOfLongestSubstring("bbbbb"))
-    print(s.lengthOfLongestSubstring("pwwkew"))
+    # print(s.lengthOfLongestSubstring("abcabcbb"))
+    # print(s.lengthOfLongestSubstring("bbbbb"))
+    # print(s.lengthOfLongestSubstring("pwwkew"))
+
+    for i in range(1000):
+        s.lengthOfLongestSubstring("uygevhexbfvafrqzfikrstgjlenkuooqmwvhebhhgciovanaiztbszmffbrzpfscenlkqsrzwznrcctkbnnvoaduduvtanxgc")
+
+    print("done")
 
 
 if __name__ == '__main__':

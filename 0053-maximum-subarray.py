@@ -46,11 +46,37 @@ class Solution:
         :rtype: int
         """
 
-        return Solution.max_sub_array_rec(nums, 0, len(nums) - 1)
+        # Condense +/- neighbors so the list looks like [+, -, +] / [+, -, +, -, +] / [+, -, +, -, + -, +].
+        nums_condensed = []
+        sum_running = None
+        for num in nums:
+            if sum_running is None:
+                sum_running = num
+            elif sum_running >= 0 > num:
+                nums_condensed.append(sum_running)
+                sum_running = num
+            elif sum_running < 0 <= num:
+                nums_condensed.append(sum_running)
+                sum_running = num
+            else:
+                sum_running += num
+
+        if sum_running is not None:
+            nums_condensed.append(sum_running)
+
+        if nums_condensed[0] < 0:
+            nums_condensed.pop(0)
+
+        if nums_condensed[-1] < 0:
+            nums_condensed.pop()
+
+        print(nums_condensed)
+        # return Solution.max_sub_array_rec(nums_condensed, 0, len(nums) - 1)
 
 
 def main():
     sol = Solution()
+    # print(sol.maxSubArray([-1, -1, 1, 1, 1, 1, -1, -1]))
     print(sol.maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
     # print(sol.maxSubArray([-1]))
 

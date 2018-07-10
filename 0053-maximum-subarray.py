@@ -42,7 +42,8 @@ class Solution:
         :rtype: int
         """
 
-        # Condense +/- neighbors so the list looks like [+, -, +] / [+, -, +, -, +] / [+, -, +, -, + -, +].
+        # Condense +/- neighbors so the list looks like [+, -, +] / [+, -, +, -, +] / [+, -, +, -, + -, +],
+        # [+, -, +, -, +, -, + -, +].
         nums_condensed = []
         sum_running = None
         for num in nums:

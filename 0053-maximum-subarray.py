@@ -1,26 +1,11 @@
-# class Solution:
-#     def maxSubArray(self, nums):
-#         """
-#         :type nums: List[int]
-#         :rtype: int
-#         """
-#
-#         sum_max = None
-#         for index_left in range(len(nums)):
-#             sum_partial = 0
-#
-#             for index_right in range(index_left, len(nums)):
-#                 sum_partial += nums[index_right]
-#                 sum_max = sum_partial if sum_max is None else max(sum_max, sum_partial)
-#
-#         return sum_max
-
-
 class Sums:
     def __init__(self, left, all, right):
         self.left = left
         self.all = all
         self.right = right
+
+    def __str__(self):
+        return str((self.left, self.all, self.right))
 
     def max(self):
         return max(self.left, self.all, self.right)
@@ -35,7 +20,7 @@ class Solution:
 
         length = index_right - index_left + 1
         if length == 1:
-            return Sums(nums[index_left], 0, 0)
+            return Sums(nums[index_left], nums[index_left], nums[index_left])
 
         # TODO: remove
         nums_effective = nums[index_left:index_right + 1]
@@ -47,24 +32,9 @@ class Solution:
 
         sum_max_left = sums_left.max()
         sum_max_right = sums_right.max()
-        sum_max_all = sums_left.all + nums[index_mid] + sums_right.all
+        sum_max_all = max(sums_left.all, sums_left.right) + nums[index_mid] + max(sums_right.left, sums_right.all)
 
         return Sums(sum_max_left, sum_max_all, sum_max_right)
-        # if num_mid > 0:
-        #     sum_max_left += num_mid
-        #     sum_max_right += num_mid
-
-        # sum_max = max(sum_all, sum_max_left, sum_max_right)
-        # return sum_max
-
-        # if sum_max_left > 0 and sum_max_right > 0:
-        #     return sum_max_left + sum_max_right
-        # elif sum_max_left <= 0 and sum_max_right <= 0:
-        #     return max(sum_max_left, sum_max_right)
-        # elif sum_max_left <= 0 < sum_max_right:
-        #     return sum_max_right
-        # elif sum_max_left > 0 >= sum_max_right:
-        #     return sum_max_left
 
     def maxSubArray(self, nums):
         """
@@ -105,8 +75,9 @@ class Solution:
 
 def main():
     sol = Solution()
+    print(sol.maxSubArray([8, -19, 5, -4, 20]))
     # print(sol.maxSubArray([-1, -1, 1, 1, 1, 1, -1, -1]))
-    print(sol.maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
+    # print(sol.maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
     # print(sol.maxSubArray([-1]))
 
 

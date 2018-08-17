@@ -1,34 +1,27 @@
 class Solution:
-    @staticmethod
-    def binary_ones(n):
-        """
-        :param n: int
-        :return: int
-        """
-
-        num_ones = 0
-        while n > 0:
-            num_ones += 0x1 & n
-            n >>= 1
-
-        return num_ones
-
     def countBits(self, num):
         """
         :type num: int
         :rtype: List[int]
         """
 
-        ones_for_n = []
-        for n in range(num + 1):
-            ones_for_n.append(Solution.binary_ones(n))
+        one_bits_counts = [0]
 
-        return ones_for_n
+        for n in range(1, num + 1):
+            if n % 2 == 0:
+                extra = 0
+            else:
+                extra = 1
+
+            one_bits_counts.append(one_bits_counts[n // 2] + extra)
+
+        return one_bits_counts
 
 
 def main():
     sol = Solution()
 
+    print(sol.countBits(0))
     print(sol.countBits(2))
     print(sol.countBits(5))
 

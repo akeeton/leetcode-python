@@ -21,28 +21,39 @@ from operator import itemgetter
 
 
 class Solution:
+    @staticmethod
+    def get_height(person):
+        return person[0]
+
+    @staticmethod
+    def get_tall_people_in_front(person):
+        return person[1]
+
     def reconstructQueue(self, people):
         """
         :type people: List[List[int]]
         :rtype: List[List[int]]
         """
 
+        if len(people) == 0:
+            return []
+
         # Sort first by people in front and then by height
         people_partially_sorted = sorted(people, key=itemgetter(1, 0))
 
-        print(people_partially_sorted)
-        exit(0)
+        assert(len(people_partially_sorted) > 0)
+        people_sorted = [people_partially_sorted[0]]
 
-        while len(people_sorted) < len(people):
-            num_people_in_front = 0
+        for person_to_insert in people_partially_sorted:
+            tall_people_seen = 0
 
-            for person in people:
-                if person[1] == num_people_in_front:
-                    pass
+            insertion_index = len(people_sorted)
+            for i, person_in_line in enumerate(people_sorted):
+                if Solution.get_height(person_in_line) >= Solution.get_height(person_to_insert):
+                    tall_people_seen += 1
 
-            num_people_in_front += 1
 
-        people_sorted = []
+
         return people_sorted
 
 

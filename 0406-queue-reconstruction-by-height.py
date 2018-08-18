@@ -35,26 +35,25 @@ class Solution:
         :rtype: List[List[int]]
         """
 
-        if len(people) == 0:
-            return []
-
-        # Sort first by people in front and then by height
-        people_partially_sorted = sorted(people, key=itemgetter(1, 0))
-
-        assert(len(people_partially_sorted) > 0)
-        people_sorted = [people_partially_sorted[0]]
+        # Sort first by height then by number of tall people in front
+        people_partially_sorted = sorted(people, key=itemgetter(0, 1))
+        people_in_line = [None] * len(people)
 
         for person_to_insert in people_partially_sorted:
+
+            tall_people_in_front = Solution.get_tall_people_in_front(person_to_insert)
             tall_people_seen = 0
 
-            insertion_index = len(people_sorted)
-            for i, person_in_line in enumerate(people_sorted):
-                if Solution.get_height(person_in_line) >= Solution.get_height(person_to_insert):
+            for i, person_in_line in enumerate(people_in_line):
+
+                if not people_in_line[i] and tall_people_in_front == tall_people_seen:
+                        people_in_line[i] = person_to_insert
+                        break
+
+                if not people_in_line[i] or Solution.get_height(people_in_line[i]) >= Solution.get_height(person_to_insert):
                     tall_people_seen += 1
 
-
-
-        return people_sorted
+        return people_in_line
 
 
 def main():

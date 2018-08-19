@@ -46,17 +46,19 @@ class Solution:
         :rtype: int
         """
 
-        palindromes = []
+        # palindromes = []
+        num_palindromes = 0
 
         for left in range(len(s)):
             for right in range(left, len(s)):
                 substring = s[left:right + 1]
 
                 if Solution.is_palindrome(substring):
-                    palindromes.append(substring)
+                    num_palindromes += 1
+                    # palindromes.append(substring)
 
-        print(palindromes)
-        return len(palindromes)
+        # print(palindromes)
+        return num_palindromes
 
 
 def main():

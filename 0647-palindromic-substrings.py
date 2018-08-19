@@ -21,7 +21,7 @@ class Solution:
     @staticmethod
     def is_palindrome(s):
         """
-        :param s: string
+        :param s: str
         :return: bool
         """
 
@@ -46,9 +46,25 @@ class Solution:
         :rtype: int
         """
 
+        palindromes = []
+
+        for left in range(len(s)):
+            for right in range(left, len(s)):
+                substring = s[left:right + 1]
+
+                if Solution.is_palindrome(substring):
+                    palindromes.append(substring)
+
+        print(palindromes)
+        return len(palindromes)
+
 
 def main():
-    pass
+    sol = Solution()
+
+    print(sol.countSubstrings("abc"))
+    print(sol.countSubstrings("aaa"))
+    print(sol.countSubstrings("abcdcba"))
 
 
 if __name__ == '__main__':

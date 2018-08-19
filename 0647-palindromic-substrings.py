@@ -53,7 +53,7 @@ class Solution:
             left = middle
             right = middle
 
-        while left >= left_bound and right <= right_bound:
+        while left >= left_bound and right <= right_bound and right - left + 1 > 1:
             if s[left] == s[right]:
                 palindromes.append(s[left:right + 1])
                 num_palindromes += 1
@@ -78,11 +78,15 @@ class Solution:
         num_palindromes = 0
 
         for left_bound in range(len(s)):
-            for right_bound in range(left_bound, len(s)):
+            for right_bound in range(left_bound + 1, len(s)):
                 num_palindromes += Solution.do_stuff(s, left_bound, right_bound, palindromes)
 
+        for c in s:
+            palindromes.append(c)
+
         print(palindromes)
-        return num_palindromes
+        return len(palindromes)
+        # return num_palindromes + len(s) # len(s) for single-character palindromes
 
 
 def main():

@@ -19,13 +19,18 @@ The input string length won't exceed 1000.
 
 class Solution:
     @staticmethod
-    def is_palindrome(s, left_bound, right_bound):
+    def do_stuff(s, left_bound, right_bound, palindromes):
         """
         :param s: str
         :param left_bound: int
         :param right_bound: int
-        :return: bool
+        :param palindromes: List[str]
+        :return: int
         """
+
+        num_palindromes = 0
+
+        slice = s[left_bound:right_bound + 1]
 
         length = right_bound - left_bound + 1
         assert(length >= 1)
@@ -33,29 +38,32 @@ class Solution:
         if length % 2 == 0:
             # length is even so treat the middle two characters as a single middle character
 
-            middle_right = length // 2
+            middle_right = left_bound + length // 2
             middle_left = middle_right - 1
 
             if s[middle_left] != s[middle_right]:
-                return False
+                return 0
 
-            left = middle_left - 1
-            right = middle_right + 1
+            left = middle_left
+            right = middle_right
         else:
             # length is odd so start at the middle character
 
-            middle = length // 2
-            left = middle - 1
-            right = middle + 1
+            middle = left_bound + length // 2
+            left = middle
+            right = middle
 
         while left >= left_bound and right <= right_bound:
-            if s[left] != s[right]:
-                return False
+            if s[left] == s[right]:
+                palindromes.append(s[left:right + 1])
+                num_palindromes += 1
+            else:
+                break
 
             left -= 1
             right += 1
 
-        return True
+        return num_palindromes
 
     def countSubstrings(self, s):
         """
@@ -70,10 +78,8 @@ class Solution:
         num_palindromes = 0
 
         for left_bound in range(len(s)):
-            for right_bound in range(len(s) - 1, left_bound - 1, -1):
-                if Solution.is_palindrome(s, left_bound, right_bound):
-                    num_palindromes += 1
-                    palindromes.append(s[left_bound:right_bound + 1])
+            for right_bound in range(left_bound, len(s)):
+                num_palindromes += Solution.do_stuff(s, left_bound, right_bound, palindromes)
 
         print(palindromes)
         return num_palindromes
@@ -82,8 +88,8 @@ class Solution:
 def main():
     sol = Solution()
 
-    # print(sol.countSubstrings("abc"))
-    # print(sol.countSubstrings("aaa"))
+    print(sol.countSubstrings("abc"))
+    print(sol.countSubstrings("aaa"))
     print(sol.countSubstrings("abcdcba"))
 
 

@@ -19,17 +19,17 @@ The input string length won't exceed 1000.
 
 class Solution:
     @staticmethod
-    def is_palindrome(s):
+    def is_palindrome(s, left, right):
         """
         :param s: str
+        :param left: int
+        :param right: int
         :return: bool
         """
 
-        if len(s) == 0 or len(s) == 1:
+        length = right - left
+        if length == 0:
             return True
-
-        left = 0
-        right = len(s) - 1
 
         while left < right:
             if s[left] != s[right]:
@@ -46,18 +46,19 @@ class Solution:
         :rtype: int
         """
 
-        # palindromes = []
+        if len(s) == 0:
+            return True
+
+        palindromes = []
         num_palindromes = 0
 
         for left in range(len(s)):
             for right in range(left, len(s)):
-                substring = s[left:right + 1]
-
-                if Solution.is_palindrome(substring):
+                if Solution.is_palindrome(s, left, right):
                     num_palindromes += 1
-                    # palindromes.append(substring)
+                    palindromes.append(s[left:right + 1])
 
-        # print(palindromes)
+        print(palindromes)
         return num_palindromes
 
 

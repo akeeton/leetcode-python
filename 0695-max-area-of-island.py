@@ -38,6 +38,10 @@ class Graph:
     vertexes: Set[Vertex]
     edges: Set[Edge]
 
+    def __init__(self):
+        self.vertexes = set()
+        self.edges = set()
+
     def add_vertex(self, v: Vertex):
         self.vertexes.add(v)
 
@@ -46,7 +50,7 @@ class Graph:
 
 
 def try_add_edge(graph: Graph, grid: List[List[int]], vertex_from: Vertex, index_row_to: int, index_col_to: int):
-    if grid[index_row_to, index_col_to] == 1:
+    if grid[index_row_to][index_col_to] == 1:
         vertex_to = Vertex(index_row_to, index_col_to)
 
         graph.add_edge(Edge(vertex_from, vertex_to))
@@ -94,6 +98,8 @@ class Solution:
 
                     try_add_edge(graph, grid, vertex_tile, index_row_down, index_col_down)
 
+        return graph
+
     def maxAreaOfIsland(self, grid):
         """
         :type grid: List[List[int]]
@@ -111,7 +117,8 @@ def main():
               [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
               [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0]]
 
-    print(Solution.grid_to_graph(grid_a))
+    graph_a = Solution.grid_to_graph(grid_a)
+    print("graph a:", graph_a)
 
 
 if __name__ == '__main__':

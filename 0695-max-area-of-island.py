@@ -24,33 +24,26 @@ Given the above grid, return 0.
 Note: The length of each dimension in the given grid does not exceed 50.
 """
 
-import typing
+from collections import namedtuple
 
-from dataclasses import dataclass
-from typing import Dict, List, Set
-
-Vertex = typing.NamedTuple('Vertex', index_row=int, index_col=int)
+Vertex = namedtuple('Vertex', ['index_row', 'index_col'])
 
 
-@dataclass
 class Graph:
-    vertexes: Set[Vertex]
-    edges: Dict[Vertex, Set[Vertex]]
-
     def __init__(self):
         self.vertexes = set()
         self.edges = {}
 
-    def add_vertex(self, v: Vertex):
+    def add_vertex(self, v):
         self.vertexes.add(v)
         if v not in self.edges:
             self.edges[v] = set()
 
-    def add_edge(self, v1: Vertex, v2: Vertex):
+    def add_edge(self, v1, v2):
         self.edges[v1].add(v2)
 
 
-def try_add_edge(graph: Graph, grid: List[List[int]], vertex_from: Vertex, index_row_to: int, index_col_to: int):
+def try_add_edge(graph, grid, vertex_from, index_row_to, index_col_to):
     if grid[index_row_to][index_col_to] == 1:
         vertex_to = Vertex(index_row_to, index_col_to)
 
@@ -61,7 +54,7 @@ def try_add_edge(graph: Graph, grid: List[List[int]], vertex_from: Vertex, index
 
 class Solution:
     @staticmethod
-    def grid_to_graph(grid: List[List[int]]) -> Graph:
+    def grid_to_graph(grid):
         graph = Graph()
 
         for index_row, row in enumerate(grid):
@@ -109,7 +102,7 @@ class Solution:
         """
 
         graph = Solution.grid_to_graph(grid)
-        visited_vertexes: Set[Vertex] = set()
+        visited_vertexes = set()
         max_subgraph_size = 0
         subgraph = 0
 
@@ -121,7 +114,7 @@ class Solution:
             # print("subgraph:", subgraph)
 
             subgraph_size = 0
-            vertexes_to_visit: List[Vertex] = [vertex_root]
+            vertexes_to_visit = [vertex_root]
 
             while len(vertexes_to_visit) > 0:
                 vertex = vertexes_to_visit.pop()

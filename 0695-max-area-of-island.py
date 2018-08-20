@@ -27,34 +27,37 @@ Note: The length of each dimension in the given grid does not exceed 50.
 import typing
 
 from dataclasses import dataclass
-from typing import List, Set
+from typing import Dict, List, Set
 
 Vertex = typing.NamedTuple('Vertex', index_row=int, index_col=int)
-Edge = typing.NamedTuple('Edge', v1=Vertex, v2=Vertex)
 
 
 @dataclass
 class Graph:
     vertexes: Set[Vertex]
-    edges: Set[Edge]
+    edges: Dict[Vertex, Set[Vertex]]
 
     def __init__(self):
         self.vertexes = set()
-        self.edges = set()
+        self.edges = {}
 
     def add_vertex(self, v: Vertex):
         self.vertexes.add(v)
 
-    def add_edge(self, edge: Edge):
-        self.edges.add(edge)
+    def add_edge(self, v1: Vertex, v2: Vertex):
+        if v1 in self.edges:
+            self.edges[v1].add(v2)
+        else:
+            self.edges[v1] = set()
+            self.edges[v1].add(v2)
 
 
 def try_add_edge(graph: Graph, grid: List[List[int]], vertex_from: Vertex, index_row_to: int, index_col_to: int):
     if grid[index_row_to][index_col_to] == 1:
         vertex_to = Vertex(index_row_to, index_col_to)
 
-        graph.add_edge(Edge(vertex_from, vertex_to))
-        graph.add_edge(Edge(vertex_to, vertex_from))
+        graph.add_edge(vertex_from, vertex_to)
+        graph.add_edge(vertex_to, vertex_from)
 
 
 class Solution:
@@ -105,6 +108,31 @@ class Solution:
         :type grid: List[List[int]]
         :rtype: int
         """
+
+        graph = Solution.grid_to_graph(grid)
+        visited_vertexes: Set[Vertex] = set()
+        max_subgraph_size = 0
+
+        for vertex_root in graph.vertexes:
+            if vertex_root in visited_vertexes:
+                continue
+
+            vertexes_to_visit: List[Vertex] = [vertex_root]
+
+            while len(vertexes_to_visit) > 0:
+                vertex = vertexes_to_visit.pop()
+                assert(vertex not in visited_vertexes)
+
+                visited_vertexes.add(vertex)
+                print(vertex)
+
+                neighbors = graph.edges[vertex]
+
+                for neighbor in neighbors:
+                    if neighbor not in visited_vertexes:
+                        vertexes_to_visit.append()
+
+        return max_subgraph_size
 
 
 def main():

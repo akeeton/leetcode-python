@@ -43,19 +43,18 @@ class Graph:
 
     def add_vertex(self, v: Vertex):
         self.vertexes.add(v)
+        if v not in self.edges:
+            self.edges[v] = set()
 
     def add_edge(self, v1: Vertex, v2: Vertex):
-        if v1 in self.edges:
-            self.edges[v1].add(v2)
-        else:
-            self.edges[v1] = set()
-            self.edges[v1].add(v2)
+        self.edges[v1].add(v2)
 
 
 def try_add_edge(graph: Graph, grid: List[List[int]], vertex_from: Vertex, index_row_to: int, index_col_to: int):
     if grid[index_row_to][index_col_to] == 1:
         vertex_to = Vertex(index_row_to, index_col_to)
 
+        graph.add_vertex(vertex_to)
         graph.add_edge(vertex_from, vertex_to)
         graph.add_edge(vertex_to, vertex_from)
 
@@ -112,30 +111,41 @@ class Solution:
         graph = Solution.grid_to_graph(grid)
         visited_vertexes: Set[Vertex] = set()
         max_subgraph_size = 0
+        subgraph = 0
 
         for vertex_root in graph.vertexes:
             if vertex_root in visited_vertexes:
                 continue
 
+            # subgraph += 1
+            # print("subgraph:", subgraph)
+
+            subgraph_size = 0
             vertexes_to_visit: List[Vertex] = [vertex_root]
 
             while len(vertexes_to_visit) > 0:
                 vertex = vertexes_to_visit.pop()
-                assert(vertex not in visited_vertexes)
 
+                if vertex in visited_vertexes:
+                    continue
+
+                subgraph_size += 1
+                max_subgraph_size = max(max_subgraph_size, subgraph_size)
+                # print(vertex)
                 visited_vertexes.add(vertex)
-                print(vertex)
 
                 neighbors = graph.edges[vertex]
 
                 for neighbor in neighbors:
                     if neighbor not in visited_vertexes:
-                        vertexes_to_visit.append()
+                        vertexes_to_visit.append(neighbor)
 
         return max_subgraph_size
 
 
 def main():
+    sol = Solution()
+
     grid_a = [[0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
               [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
               [0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -147,6 +157,11 @@ def main():
 
     graph_a = Solution.grid_to_graph(grid_a)
     print("graph a:", graph_a)
+
+    print(sol.maxAreaOfIsland(grid_a))
+
+    grid_b = [[0, 0, 0, 0, 0, 0, 0, 0]]
+    print(sol.maxAreaOfIsland(grid_b))
 
 
 if __name__ == '__main__':

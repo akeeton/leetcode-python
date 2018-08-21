@@ -30,16 +30,22 @@ class Solution:
 
     @staticmethod
     def insertion_sort_zeroes(nums):
-        for index_unsorted, num in enumerate(nums):
-            if index_unsorted == 0 or num == 0:
+        index_first_sorted_zero = None
+
+        for index_unsorted in range(len(nums)):
+            if nums[index_unsorted] == 0:
+                if index_first_sorted_zero is None:
+                    index_first_sorted_zero = index_unsorted
+
                 continue
 
-            for index_search_for_zero in range(index_unsorted):
-                if nums[index_search_for_zero] == 0:
-                    nums[index_search_for_zero] = num
-                    nums[index_unsorted] = 0
+            if index_unsorted == 0 or index_first_sorted_zero is None:
+                continue
 
-                    break
+            nums[index_first_sorted_zero] = nums[index_unsorted]
+            nums[index_unsorted] = 0
+
+            index_first_sorted_zero += 1
 
 
     def moveZeroes(self, nums):

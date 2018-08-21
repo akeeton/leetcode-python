@@ -21,6 +21,9 @@ class TreeNode:
         self.left = None
         self.right = None
 
+    def __repr__(self):
+        return "TreeNode val: {}".format(self.val)
+
 
 class Solution:
     @staticmethod
@@ -38,13 +41,40 @@ class Solution:
 
         return val_left + [node.val] + val_right
 
+    @staticmethod
+    def inorder_traversal_iterative(root):
+        if root is None:
+            return []
+
+        traversal = []
+        visited = set()
+        stack = [root]
+
+        while len(stack) > 0:
+            node_top = stack[-1]
+
+            if node_top.left and node_top.left not in visited:
+                stack.append(node_top.left)
+                continue
+
+            traversal.append(node_top.val)
+            visited.add(node_top)
+            stack.pop()
+
+            if node_top.right and node_top.right not in visited:
+                stack.append(node_top.right)
+                continue
+
+        return traversal
+
     def inorderTraversal(self, root):
         """
         :type root: TreeNode
         :rtype: List[int]
         """
 
-        return Solution.inorder_traversal_recursive(root)
+        # return Solution.inorder_traversal_recursive(root)
+        return Solution.inorder_traversal_iterative(root)
 
 
 def main():
@@ -57,6 +87,19 @@ def main():
     tree_a.right.right = None
 
     print(sol.inorderTraversal(tree_a))
+
+    tree_b = TreeNode(1)
+
+    tree_b.left = TreeNode(2)
+    tree_b.right = TreeNode(3)
+
+    tree_b.left.left = TreeNode(4)
+    tree_b.left.right = TreeNode(5)
+
+    tree_b.right.left = TreeNode(6)
+    tree_b.right.right = TreeNode(7)
+
+    print(sol.inorderTraversal(tree_b))
 
 
 if __name__ == '__main__':

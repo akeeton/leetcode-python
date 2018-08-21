@@ -23,15 +23,40 @@ class TreeNode:
 
 
 class Solution:
+    @staticmethod
+    def inorder_traversal_recursive(node):
+        """
+        :param node: TreeNode
+        :return: List[int]
+        """
+
+        if node is None:
+            return []
+
+        val_left = Solution.inorder_traversal_recursive(node.left)
+        val_right = Solution.inorder_traversal_recursive(node.right)
+
+        return val_left + [node.val] + val_right
+
     def inorderTraversal(self, root):
         """
         :type root: TreeNode
         :rtype: List[int]
         """
 
+        return Solution.inorder_traversal_recursive(root)
+
 
 def main():
-    pass
+    sol = Solution()
+
+    tree_a = TreeNode(1)
+    tree_a.left = None
+    tree_a.right = TreeNode(2)
+    tree_a.right.left = TreeNode(3)
+    tree_a.right.right = None
+
+    print(sol.inorderTraversal(tree_a))
 
 
 if __name__ == '__main__':

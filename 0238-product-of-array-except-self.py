@@ -20,18 +20,25 @@ class Solution:
         :rtype: List[int]
         """
 
+        products_to_the_left = [None] * len(nums)
+        products_to_the_right = [None] * len(nums)
+
+        for loop in range(len(nums)):
+            index_left = loop
+            index_right = len(nums) - 1 - loop
+
+            if loop == 0:
+                products_to_the_left[index_left] = 1
+                products_to_the_right[index_right] = 1
+                continue
+
+            products_to_the_left[index_left] = products_to_the_left[index_left - 1] * nums[index_left - 1]
+            products_to_the_right[index_right] = products_to_the_right[index_right + 1] * nums[index_right + 1]
+
         products = []
 
         for i in range(len(nums)):
-
-            product = 1
-            for j, num in enumerate(nums):
-                if i == j:
-                    continue
-
-                product *= num
-
-            products.append(product)
+            products.append(products_to_the_left[i] * products_to_the_right[i])
 
         return products
 

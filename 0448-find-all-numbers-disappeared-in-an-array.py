@@ -22,9 +22,22 @@ class Solution:
         :rtype: List[int]
         """
 
+        nums_seen = set()
+        for num in nums:
+            nums_seen.add(num)
+
+        nums_not_seen = []
+        for n in range(1, len(nums) + 1):
+            if n not in nums_seen:
+                nums_not_seen.append(n)
+
+        return nums_not_seen
+
 
 def main():
-    pass
+    sol = Solution()
+
+    print(sol.findDisappearedNumbers([4, 3, 2, 7, 8, 2, 3, 1]))
 
 
 if __name__ == '__main__':

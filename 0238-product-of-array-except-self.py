@@ -20,27 +20,22 @@ class Solution:
         :rtype: List[int]
         """
 
-        products_to_the_left = [None] * len(nums)
-        products_to_the_right = [None] * len(nums)
+        products_final = [1] * len(nums)
 
-        for loop in range(len(nums)):
-            index_left = loop
+        for index_left in range(1, len(nums)):
+            # Treat products as products_left for now
+            products_final[index_left] = products_final[index_left - 1] * nums[index_left - 1]
+
+        product_right = 1
+
+        # Incorporate the right-products and the final products at the same time
+        for loop in range(1, len(nums)):
             index_right = len(nums) - 1 - loop
 
-            if loop == 0:
-                products_to_the_left[index_left] = 1
-                products_to_the_right[index_right] = 1
-                continue
+            product_right *= nums[index_right + 1]
+            products_final[index_right] *= product_right
 
-            products_to_the_left[index_left] = products_to_the_left[index_left - 1] * nums[index_left - 1]
-            products_to_the_right[index_right] = products_to_the_right[index_right + 1] * nums[index_right + 1]
-
-        products = []
-
-        for i in range(len(nums)):
-            products.append(products_to_the_left[i] * products_to_the_right[i])
-
-        return products
+        return products_final
 
 
 def main():

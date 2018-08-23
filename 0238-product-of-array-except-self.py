@@ -20,9 +20,26 @@ class Solution:
         :rtype: List[int]
         """
 
+        products = []
+
+        for i in range(len(nums)):
+
+            product = 1
+            for j, num in enumerate(nums):
+                if i == j:
+                    continue
+
+                product *= num
+
+            products.append(product)
+
+        return products
+
 
 def main():
-    pass
+    sol = Solution()
+
+    print(sol.productExceptSelf([1, 2, 3, 4]))
 
 
 if __name__ == '__main__':

@@ -27,15 +27,35 @@ class Solution:
         """
 
         counter = Counter(nums)
-        most_common = counter.most_common(k)
+        buckets = [[] for _ in range(len(nums) + 1)]
 
-        return [n for (n, _) in most_common]
+        for item in counter.items():
+            count = item[1]
+            num = item[0]
+
+            buckets[count].append(num)
+
+        result = []
+        for nums_with_freq in reversed(buckets):
+            if not nums_with_freq:
+                continue
+
+            if k == 0:
+                break
+
+            n = len(nums_with_freq)
+            result += nums_with_freq[0:k]
+            k -= n
+
+        return result
 
 
 def main():
     sol = Solution()
 
-    print(sol.topKFrequent([1, 1, 1, 2, 2, 3], 2))
+    # print(sol.topKFrequent([1, 1, 1, 2, 2, 3], 2))
+    # print(sol.topKFrequent(["a", "a", "a", "b", "b", "c"], 2))
+    print(sol.topKFrequent([4, 1, -1, 2, -1, 2, 3], 2))  # -1, 2
 
 
 if __name__ == '__main__':

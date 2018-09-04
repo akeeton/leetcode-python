@@ -22,12 +22,25 @@ class Solution:
         :rtype: int
         """
 
+        votes = 0
+        for num in nums:
+            if votes == 0:
+                candidate = num
+
+            if num == candidate:
+                votes += 1
+            else:
+                votes -= 1
+
+        return candidate
+
+
 
 def main():
     sol = Solution()
 
     print(sol.majorityElement([3, 2, 3]))
-    print(sol.majorityElement([2, 2, 1, 1, 1, 2, 2])
+    print(sol.majorityElement([2, 2, 1, 1, 1, 2, 2]))
 
 
 if __name__ == '__main__':
